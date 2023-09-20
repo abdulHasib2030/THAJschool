@@ -1,0 +1,21 @@
+{% extends "teacher_base.html" %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 40px;">
+  <div class="row">
+
+<div style="width: 80%; margin:auto;">
+
+  <h1 class="bg-light p-5 rounded text-center text-dark "><span class="text-warning">UPDATE</span> YOUR COURSE</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+  <button class="btn btn-primary mt-2" type="submit">Update now</button>
+  </form>
+
+</div>    
+  </div>
+</div>
+
+{% endblock content %}

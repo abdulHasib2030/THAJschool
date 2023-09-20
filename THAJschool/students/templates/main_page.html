@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THAJschool</title>
+  <!-- Add jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Add Owl Carousel CSS and JavaScript files -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css'%}">
+  <link rel="stylesheet" href="{% static 'css/templatemo-topic-listing.css' %}">
+</head>
+
+<body>
+  <!-- Your slider content will go here -->
+  <nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container">
+      <a class="navbar-brand " href="{% url 'home' %}">
+        <i class="bi-back text-info"></i>
+        <span class="text-white">THAJschool</span>
+      </a>
+
+
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+          <li class="nav-item">
+            <a class="nav-link click-scroll" href="{% url 'main_page'%}">Home</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">Department</a>
+
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+              <li><a class="dropdown-item" href="{% url 'main_page'%}">All Department</a></li>
+              {% for course in links %}
+                <a class="dropdown-item" href="{{course.get_url}}">{{course.department_name}}
+                </a>
+                {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-item mt-2">
+            <form action="{% url 'search' %}" class="search" method="GET">
+              <div class="input-group w-150">
+                <input type="text" class="form-control" style="width: 80%;" placeholder="Search" name="keyword" />
+  
+                <div class="input-group-append">
+                  <button class="btn btn-success" type="submit">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </li>
+        </ul>
+
+        {% if request.user.is_authenticated %}
+        <ul class="navbar-nav flex-row ms-auto align-items-center ">
+      <li class="nav-item dropdown ">
+        <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+          aria-expanded="false">
+    
+           
+           <img src="{{request.user.image.url}}" alt="" width="35" height="35" class="rounded-circle">
+           
+
+          
+
+        </a>
+        
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+          <div class="message-body">
+            <a href="{% url 'student_profile' %}" class="d-flex align-items-center gap-2 dropdown-item">
+              <i class="ti ti-user fs-6"></i>
+              <p class="mb-0 fs-3">My Profile</p>
+            </a>
+           
+           
+            <a href="{% url 'student_logout' %}" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+          </div>
+    
+        </div>
+      </li>
+    </ul>
+       
+            
+    
+          {% else %}
+    
+            <a class="text-white ml-5" href="{% url 'student_login' %}">Login |</a>
+            <a class="text-white " href="{% url 'student_register' %}">Register</a>
+      {% endif %}
+
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container bg-dark" style="height: 280px;">
+    <div class="row" style=" min-height: 280px;
+    border-radius: 23px;
+    padding: 80px 60px;">
+      <div class="text-white text-center m-auto">
+        <h6 class="text-white">Welcome To THAJschool</h6>
+        <h4 style="margin: 10px 0 10px 0; color:#00D8B9 "><em>Browse</em> Our Popular Course Here</h4>
+  
+        <a class="btn btn-info" href="browse.html">Browse Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!--Featured Course-->
+  <div class="featured-games header-text mb-5">
+    <div class="heading-section">
+      <h4><em>Featured</em> Courses</h4>
+    </div>
+
+    <h4 class="text-dark">Total Available courses : {{p_count}}</h4>
+
+    <div class="owl-carousel">
+      {% for i in course %}
+      <div class="item">
+        <div class="thumb">
+
+        
+          <div class="custom-block-image">
+            
+            <img src="{{i.img.url}}" alt="Image 1">
+          </div>
+        
+
+        </div>
+
+        <p>{{i.title}}</p>
+        <p style=" 
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height:56px;">{{i.description}}</p>
+        <p>${{i.price}}</p>
+        <p><strong>Department: {{i.department}}</strong></p>
+        <p class="text-white"><strong>Teacher: {{i.user.first_name}} {{i.user.last_name}} </strong></p>
+
+        <ul>
+          <li style="list-style: none; "><i class="bi bi-star-fill text-warning "></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-fill text-warning"></i>
+            <i class="bi bi-star-half text-warning"></i>4.5
+          </li>
+
+        </ul>
+        <a href="{% url 'single_page' i.slug %}" class="btn text-white bg-info custom-btn mt-3 mt-lg-4">Learn More</a>
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="{% static 'script.js' %}"></script>
+
+  <footer class="site-footer section-padding bg-dark">
+    <div class="container">
+      <div class="row text-center">
+
+        <p>Copyright © <a href="#">THAJschool</a> Company. All rights reserved.
+
+        
+          <br>Develop: <a href="https://www.facebook.com/abdulhasib30/" target="_blank" title="free CSS templates">Abdul
+            Hasib</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>

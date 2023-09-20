@@ -1,0 +1,39 @@
+{% extends "teacher_base.html" %}
+
+{% block content %}
+
+
+
+
+<div class="container " style="margin-top: 40px;">
+  <div class="row custom-block bg-white shadow-lg" >
+   <div style="width: 70%; margin:auto">
+    <form method="post" enctype="multipart/form-data">
+      <h1 class="bg-light p-5 rounded text-center text-dark "><span class="text-warning">ADD</span> YOUR COURSE</h1>
+      {% csrf_token %}
+      <label for="{{form.title.id_for_label}}">Title :</label>
+      {{form.title}}
+      <label for="{{form.description.id_for_label}}" class="mt-3">Description :</label>
+      {{form.description}}
+      <label for="{{form.department.id_for_label}}" class="mt-3">Department Choose :</label>
+      {{form.department}}
+      <label for="{{form.available_courses.id_for_label}}" class="mt-3">Available Courses :</label>
+      {{form.available_courses}}
+      <p></p>
+      <label for="{{form.price.id_for_label}}" class="mt-3">Price :</label>
+      {{form.price}}
+      <label for="{{form.course_duration.id_for_label}}" class="mt-3">Course Duration :</label>
+      {{form.course_duration}}
+      <label for="{{form.course_content.id_for_label}}" class="mt-3">Course Content :</label>
+      {{form.course_content}}
+      <label for="{{form.img.id_for_label}}" class="mt-3">Course Thumbnail  :</label>
+      {{form.img}}
+
+      <button class="btn btn-primary mt-2" type="submit" class="mt-3">Add Course</button>
+    </form>
+
+  </div>
+
+</div>
+</div>
+ {% endblock content %}
