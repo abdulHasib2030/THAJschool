@@ -8,7 +8,7 @@ from accounts.models import Teacher
 class addCoursesForm(forms.ModelForm):
   class Meta:
     model = addCourses
-    fields = ['title', 'description', 'department', 'available_courses', 'price', 'course_duration', 'course_content', 'img']
+    fields = ['title', 'description', 'department', 'available_courses', 'price', 'course_duration', 'course_content', 'img', 'video']
     
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)

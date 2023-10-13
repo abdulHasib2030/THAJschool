@@ -33,7 +33,7 @@ class addCourses(models.Model):
   course_duration = models.CharField(max_length=50)
   course_content = models.TextField(max_length=2000)
   img = models.ImageField(upload_to='images/', blank =True)
-  
+  video = models.FileField(upload_to='teacher/course-video/', blank=True)
   
   def save(self, *args, **kwargs):
     self.slug = slugify(self.title+ str(self.created_date))
