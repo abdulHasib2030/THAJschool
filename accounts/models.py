@@ -71,6 +71,7 @@ class UserAccount(AbstractBaseUser):
     return self.is_admin
   def has_module_perms(self , app_label):
     return True
+  
   def save(self , *args , **kwargs):
     if not self.type or self.type == None :
       self.type = UserAccount.Types.TEACHER

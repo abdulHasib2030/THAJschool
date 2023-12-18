@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'teachers',
     'students',
+    'enroll',
 ]
 
 AUTH_USER_MODEL = "accounts.UserAccount"

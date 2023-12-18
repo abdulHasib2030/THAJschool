@@ -1,7 +1,14 @@
-{% extends "login_base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
+<nav class="navbar navbar-dark text-center bg-dark">
+  <div style="width:100%; margin:auto">
+  <a class=""  style="font-size: 58px;" href="{% url 'home' %}">
+    <i class="bi-back text-info"></i>
+    <span class="text-white" >THAJschool</span>
+  </a></div>
+</nav>
 
 
 <section class="section-content padding-y">
@@ -56,13 +63,10 @@
   {{ form.email.errors }}
   {{ form.non_field_errors }}
   </form>
-  </article><!-- card-body.// -->
-  </div> <!-- card .// -->
+  </article>
+  </div> 
   <p class="text-center mt-4">Have an account? <a href="{% url 'student_login' %}">Log In</a></p>
-  <br><br>
-  <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
-
-
+  <br><br> 
 </section>
 
 

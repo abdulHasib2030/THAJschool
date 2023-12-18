@@ -125,7 +125,7 @@ class teacherAccountupdate(View):
   
   def post(self, request):
     
-    form =UserUpdateForm(request.POST, instance = request.user)
+    form =UserUpdateForm(request.POST, request.FILES, instance = request.user)
     if form.is_valid():
       form.save()
       return redirect('profile')

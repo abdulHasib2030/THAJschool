@@ -1,66 +1,129 @@
-{% extends "student_base.html" %}
+{% extends "base.html" %}
 {% load static %}
+
+{% block style %}
+<style>
+    /* Add a container to center the video */
+    .video-container {
+        max-width: 100%;
+        margin: auto;
+    }
+
+    /* Make the video element responsive */
+    .video-container video {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock style %}
+
 
 {% block content %}
 
+{% include "includes/stu_navbar.html" %}
+
 <header class="site-header d-flex flex-column justify-content-center align-items-center">
-  <div class="container">
-      <div class="row justify-content-center align-items-center">
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
 
-          <div class="col-lg-5 col-12 mb-5">
-              <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="{% url 'main_page' %}">Homepage</a></li>
+            <div class="col-lg-5 col-12 mb-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'main_page' %}">Homepage</a></li>
 
-                      <li class="breadcrumb-item active" aria-current="page">{{context.department}}</li>
-                  </ol>
-              </nav>
+                        <li class="breadcrumb-item active" aria-current="page">{{context.department}}</li>
+                    </ol>
+                </nav>
 
-              <h2 class="text-white">Introduction to <br> {{context.department}}</h2>
+                <h2 class="text-white">Introduction to <br> {{context.department}}</h2>
 
-              <div class="d-flex align-items-center mt-5">
-                  <a href="" class="btn custom-btn custom-border-btn smoothscroll me-4">Enroll Now</a>
+                <div class="d-flex align-items-center mt-5">
+                    {% if request.user.is_authenticated %}
+                    {% if course_access %}
 
-                  <a href="#top" class=" smoothscroll text-white me-4">${{context.price}} </a>
-                  <a href="#top" class=" smoothscroll bg-dark rounded p-2 text-white">{{context.user.first_name}} {{context.user.last_name}} </a>
-              </div>
-          </div>
+                    {% else%}
+                    <a href="{% url 'enroll' context.id %}"
+                        class="btn custom-btn custom-border-btn smoothscroll me-4">Enroll Now</a>
 
-          <div class="col-lg-5 col-12">
-              <div class="topics-detail-block bg-white shadow-lg">
-                  <img src="{{context.img.url}}" class="topics-detail-block-image img-fluid">
-              </div>
-          </div>
+                    {% endif %}
 
-      </div>
-  </div>
+                    {% else %}
+                    <a href="{% url  'student_login' %}"
+                        class="btn custom-btn custom-border-btn smoothscroll me-4">Enroll Now</a>
+                    {% endif %}
+
+
+                    <a href="#top" class=" smoothscroll text-white me-4">${{context.price}} </a>
+                    <a href="#top" class=" smoothscroll bg-dark rounded p-2 text-white">{{context.user.first_name}}
+                        {{context.user.last_name}} </a>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-12">
+                <div class="topics-detail-block bg-white shadow-lg">
+                    <div class="video-container">
+                        <video controls poster="{{context.img.url}}">
+                            <source src="{{ context.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <!-- <img src="{{context.img.url}}" class="topics-detail-block-image img-fluid"> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
 </header>
 
 
 <section class="topics-detail-section section-padding" id="topics-detail">
-  <div class="container">
-      <div class="row">
+    <div class="container">
+        <div class="row">
 
-          <div class="col-lg-8 col-12 m-auto">
-              <h3 class="mb-4">Course Title: {{context.title}}</h3>
-              <h3>Course Duration:{{context.course_duration}}</h3>
-              <p>Description: {{context.description}}</p>
+            <div class="col-lg-8 col-12 m-auto">
+                <h3 class="mb-4">Course Title: {{context.title}}</h3>
+                <h3>Course Duration:{{context.course_duration}}</h3>
+                <p>Description: {{context.description}}</p>
 
-              <br>
-              <details>
-               <summary>Course Content</summary>
-              {{context.course_content}}
-             </details>
-             <h1>Preview The Course </h1>
-             <video width="600" height="340" controls>
-                <source src="{{ context.video.url }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+                <br>
+                <details>
+                    <summary>Course Content</summary>
+                    {{context.course_content}}
+                </details>
+                <h1>Preview The Course </h1>
+               
+                <div class="video-container">
+           
+                      <a href=""><source src="{{ context.video.url }}" type="video/mp4"></a>
+                      
+                </div>
+                    <!-- <div class="embed-responsive embed-responsive-16by9 w-20">
+                        <video class="embed-responsive-item" controls>
+                            <source src="{{ context.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div> -->
+                    <h1 class="bg-dark p-2 text-white rounded ">Course Video</h1>
+                {% if course_access %}
+                <div class="video-container">
+                <video width="600" height="340" controls>
+                    <source src="{{ context.course_video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+                {% else %}
+                <div class="video-container">
+                <video width="600" height="340" poster="{% static 'images/lock.png' %}" controls>
 
-          </div>
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+                {% endif %}
+            </div>
 
-      </div>
-  </div>
+        </div>
+    </div>
 </section>
 
 {% endblock content %}

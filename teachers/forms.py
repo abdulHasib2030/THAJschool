@@ -8,7 +8,7 @@ from accounts.models import Teacher
 class addCoursesForm(forms.ModelForm):
   class Meta:
     model = addCourses
-    fields = ['title', 'description', 'department', 'available_courses', 'price', 'course_duration', 'course_content', 'img', 'video']
+    fields = ['title', 'description', 'department', 'available_courses', 'price', 'course_duration', 'course_content', 'img', 'video', 'course_video']
     
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -32,7 +32,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Teacher
-        fields = ['first_name', 'last_name', 'email']
+        fields = [ 'image',  'first_name', 'last_name', 'email']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,12 +45,12 @@ class UserUpdateForm(forms.ModelForm):
         # jodi user er account thake 
         
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        if commit:
-            user.save()
+    # def save(self, commit=True):
+    #     user = super().save(commit=False)
+    #     if commit:
+    #         user.save()
 
-        return user
+    #     return user
     
 
 

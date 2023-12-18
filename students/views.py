@@ -4,11 +4,11 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.views import View
 from accounts.forms import studentRegistrationForm
-from accounts.models import Student
+from accounts.models import Student, Teacher
 from teachers.models import addCourses, Department
 from students.forms import studentUpdateProfileForm, studentAddressForm,studentEducateionForm,studentCourseHistoryForm
 from students.models import CourseHistory
-
+from enroll.models import CourseEnroll
 ############# Register Student Account ############
 def studentRegisterView(request):
   if request.method == 'POST':
@@ -40,6 +40,24 @@ def studentRegisterView(request):
 
 # Create your views here.
 def mainPageView(request, slug_department=None):
+  teacher = Teacher.objects.all()
+  teacher_valid = True
+  lst = []
+  
+  if len(teacher) > 4: 
+    teacher_valid = False
+    cnt = 0
+    for i in teacher:
+      if cnt == 4:
+        break
+      dic = {} 
+      dic['first_name'] = i.first_name
+      dic['last_name'] = i.last_name
+   
+      lst.append(dic)
+      cnt += 1
+  
+
   if slug_department != None:
     department = get_object_or_404(Department, slug =slug_department)
     course = addCourses.objects.filter(available_courses=True, department = department )
@@ -49,9 +67,15 @@ def mainPageView(request, slug_department=None):
     course = addCourses.objects.filter(available_courses=True)
     p_count = course.count()
   
+  if teacher_valid == True:
+    teachers =  teacher
+  else:
+    teachers = lst
   context = {
     'course':course,
     'p_count':p_count,
+    'teachers':teachers,
+     
   }
 
   return render(request, 'main_page.html', context)
@@ -60,7 +84,14 @@ def mainPageView(request, slug_department=None):
 ########### Single Course Page View ########
 def singleCoursePageView(request, title_slug):
   context = addCourses.objects.get(slug=title_slug)   
-  return render(request, 'single_page.html', {'context':context})
+  
+  try:
+    course_access = CourseEnroll.objects.get(student=request.user.id)
+    course_access = True
+  except CourseEnroll.DoesNotExist:
+    course_access = False
+  print(course_access)
+  return render(request, 'single_page.html', {'context':context, 'course_access':course_access})
 
 ############## course Search ###########
 def search(request):
@@ -69,6 +100,7 @@ def search(request):
     if keyword:
       course = addCourses.objects.order_by('-created_date').filter(Q(description__icontains = keyword) | Q(title__icontains = keyword), available_courses=True) 
       p_count = course.count()
+    
     context={
        'course':course,
        'p_count':p_count,  

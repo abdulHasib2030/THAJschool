@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+
 urlpatterns = [
     path('', views.mainPageView, name = 'main_page'),
     path('department/<slug:slug_department>/', views.mainPageView, name = 'department_page'),
