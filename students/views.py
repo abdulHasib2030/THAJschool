@@ -100,7 +100,8 @@ def search(request):
     if keyword:
       course = addCourses.objects.order_by('-created_date').filter(Q(description__icontains = keyword) | Q(title__icontains = keyword), available_courses=True) 
       p_count = course.count()
-    
+    else:
+      messages.success(request,'Invalid')
     context={
        'course':course,
        'p_count':p_count,  
